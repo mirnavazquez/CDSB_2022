@@ -116,8 +116,10 @@ concoct_coverage_table.py SplitAssembly-htn.bed htn_sorted.bam > concoct_coverag
 
 Ahora si!! a correr concoct.
 
+Normalmente correriamos 500 iteraciones, pero esta vez solo haremos una.
+
 ```{bash run concot, eval=FALSE}
-concoct --coverage_file concoct_coverage_table_htn.tsv --composition_file htn.fasta-split10K.fa --clusters 400 --kmer_length 4 --threads 1 --length_threshold 3000 --basename concot --seed 4 --iterations 500
+concoct --coverage_file concoct_coverage_table_htn.tsv --composition_file htn.fasta-split10K.fa --clusters 400 --kmer_length 4 --threads 1 --length_threshold 3000 --basename concot --seed 4 --iterations 1
 ```
 
 
