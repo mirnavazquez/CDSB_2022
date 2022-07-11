@@ -54,17 +54,41 @@ Para MetaBat lo primero que tenemos que hacer es crear un archivo de profundidad
 
 Entonces primero activamos el ambinte.
 
-```{bash}
+```{bash eval=FALSE}
 conda activate metabat
 ```
 
 Como cualquier otro programa **jgi_summarize_bam_contig_depths** tiene opciones, podemos revisarlas. 
 
-```{bash}
+```{bash eval=FALSE}
 jgi_summarize_bam_contig_depths  --outputDepth htn-depth.txt htn_sorted.bam
 ```
 
+Okay... exploremos el archivo con **head**
 
+```{bash eval=FALSE}
+head htn-depth.txt
+```
+
+Para metabat solo necesitamos dos archivos principales:
+
+- El ensamble
+- El archivo de profundidad
+
+El resto de argumentos que vamos a usar se refieren a:
+
+ - minCVSum: Cobertura media  total mínima de un contig (suma de profundidad)
+ - saveCls: guardar membresías de clúster como un formato de matriz
+ - d: salida corta
+ - v: salida detallada
+ - minCV: Cobertura media mínima de un contig en cada biblioteca para binning.
+ - m: Tamaño mínimo de un contig para binning (debe ser >=1500). Usualmente usamos 2000 pero para el ejercicio usaremos 1500
+ 
+```{bash running Metabat, eval=FALSE}
+metabat -i final.contigs.fa -a /home/mirna/03.Mapeo/htn-depth.txt -o bins -t 1 --minCVSum 0 --saveCls -d -v --minCV 0.1 -m 1500
+```
+
+ 
 #### CONCOCT
 
 #### Vamb
