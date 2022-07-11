@@ -85,9 +85,10 @@ El resto de argumentos que vamos a usar se refieren a:
  - m: Tamaño mínimo de un contig para binning (debe ser >=1500). Usualmente usamos 2000 pero para el ejercicio usaremos 1500
  
 ```{bash running Metabat, eval=FALSE}
-metabat -i final.contigs.fa -a /home/mirna/03.Mapeo/htn-depth.txt -o bins -t 1 --minCVSum 0 --saveCls -d -v --minCV 0.1 -m 1500
+metabat -i htn.fasta -a /home/mirna/03.Mapeo/htn-depth.txt -o bins -t 1 --minCVSum 0 --saveCls -d -v --minCV 0.1 -m 1500
 ```
 
+**** TOMO 20 MINUTOS ***
  
 #### CONCOCT
 
