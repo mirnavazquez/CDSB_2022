@@ -119,9 +119,21 @@ Ahora si!! a correr concoct.
 Normalmente correriamos 500 iteraciones, pero esta vez solo haremos una.
 
 ```{bash run concot, eval=FALSE}
-concoct --coverage_file concoct_coverage_table_htn.tsv --composition_file htn.fasta-split10K.fa --clusters 400 --kmer_length 4 --threads 1 --length_threshold 3000 --basename concot --seed 4 --iterations 1
+concoct --coverage_file concoct_coverage_table_htn.tsv --composition_file htn.fasta-split10K.fa --clusters 400 --kmer_length 4 --threads 4 --length_threshold 3000 --basename concot --seed 4 --iterations 1
 ```
 
+Merge subcontig clustering into original contigs
+
+```{bash merge step, eval=FALSE}
+merge_cutup_clustering.py concot_clustering_gt3000.csv > merged-htn-gt3000.csv
+```
+
+Extract bins as individual fasta.
+
+```{bash make fastafiles, eval=FALSE}
+mkdir bins-concot
+extract_fasta_bins.py  htn.fasta merged-htn-gt3000.csv --output_path bins-concot
+```
 
 #### Vamb
 
