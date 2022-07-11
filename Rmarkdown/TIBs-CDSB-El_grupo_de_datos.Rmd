@@ -1,0 +1,18 @@
+---
+title: "TIBs-CDSB-El_grupo_de_datos"
+author: "Diana Oaxaca y Mirna Vazquez Rosas Landa"
+date: '2022-07-11'
+output: html_document
+---
+
+### Datos
+
+Los datos con los que trabajaremos se enlistan en la siguiente tabla. Durante el taller usaremos los datos del microbioma de pacientes con hipertensión **(htn)** y los otros datos se usaran en la práctica por equipos.
+
+| samples   | BioProject                                                   | Article                                                      |
+| --------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| htn       | [PRJEB13870](https://www.ebi.ac.uk/ena/browser/view/PRJEB13870?show=reads) | **[Gut microbiota dysbiosis contributes to ...](https://link.springer.com/article/10.1186/s40168-016-0222-x#Ack1)** |
+| biogas    | [PRJEB21678](https://www.ebi.ac.uk/ena/browser/view/PRJEB21678) | [**Genetic repertoires of anaerobic microbiomes ...**](https://biotechnologyforbiofuels.biomedcentral.com/articles/10.1186/s13068-018-1258-x). |
+| pulque    | [PRJNA603591](https://www.ebi.ac.uk/ena/browser/view/PRJNA603591) | [**Genomic profiling of bacterial and fungal ...**](https://www.nature.com/articles/s41598-020-71864-4) |
+| sedimento | [PRJNA364776](https://www.ebi.ac.uk/ena/browser/view/PRJNA364776) | [**Microbial Dark Matter project phase II**](https://www.osti.gov/award-doi-service/biblio/10.46936/10.25585/60000876) * |
+| tea       | [PRJNA698063](https://www.ebi.ac.uk/ena/browser/view/PRJNA698063) | [**Niche differentiation of microbes......**)](https://www.researchsquare.com/article/rs-347764/v1) |

@@ -1,0 +1,80 @@
+---
+title: "TIBs-CDSB-Mapping"
+author: "Diana Oaxaca y Mirna Vazquez Rosas Landaa"
+date: '2022-07-11'
+output: html_document
+---
+
+### Mapeo
+
+3. **Profundidad**: La profundidad de cada contig generado se realizó mediante el mapeo de las lecturas al ensamble. Este paso permite evaluar la calidad del ensable y es necesario para hacer la reconstrucción de genomas ya que, como veremos más adelante, es uno de los parámetros que toman en cuenta los bineadores. El mapeo se realizó con la herramienta BBMap del programa **[BBtools](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/)**.
+
+   ```shell
+   ## activar el ambiente de bbmap
+   conda activate /home/dhernandez/.conda/envs/bbmap
+   ## correr bbmap
+   bash src/03.depth_assembly.sh
+   ## desactivar el ambiente
+   conda deactivate
+   ```
+
+### Binning
+
+Utilizaremos varios programas para hacer la reconstrucción de los genomas y haremos una comparación de estos.
+
+**NOTA**: Cada programa tiene una ayuda y un manual de usuario, es **importante** revisarlo y conocer cada parámetro que se ejecute. En terminal se puede consultar el manual con el comando `man` y también se puede consultar la ayuda con `-h` o `--help`, por ejemplo `fastqc -h`.
+
+La presente práctica sólo es una representación del flujo de trabajo, sin embargo, no sustituye los manuales de cada programa y el flujo puede variar dependiendo del tipo de datos y pregunta de investigación.
+
+**¡Manos a la obra!**
+
+Conéctate al servidor:
+
+```shell
+ssh USER@hpc-matematicas-z.fciencias.unam.mx
+```
+
+Crea tu espacio de trabajo y una liga símbólica hacia los datos que se usarán:
+
+# ESTA PARTE ME CAUSA CONFLICTO
+```shell
+mkdir -p htn/{data,results,logs}
+cd htn
+ln -s /home/diana/htn/data/* .
+cd ..
+```
+
+#### MaxBin
+
+#### BinSanity
+
+#### MetaBat
+
+Para MetaBat lo primero que tenemos que hacer es crear un archivo de profundidad utilizando el script **jgi_summarize_bam_contig_depths**.
+
+Entonces primero activamos el ambinte.
+
+```{bash}
+conda activate metabat
+```
+
+Como cualquier otro programa **jgi_summarize_bam_contig_depths** tiene opciones, podemos revisarlas. 
+
+```{bash}
+jgi_summarize_bam_contig_depths  --outputDepth htn-depth.txt htn_sorted.bam
+```
+
+
+#### CONCOCT
+
+#### Vamb
+
+### Calidad y limpieza
+
+#### CheckM
+
+#### mmGenome
+
+### Refinamiento
+
+#### DASTool
