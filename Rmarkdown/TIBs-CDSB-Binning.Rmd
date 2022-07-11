@@ -92,6 +92,36 @@ metabat -i htn.fasta -a /home/mirna/03.Mapeo/htn-depth.txt -o bins -t 1 --minCVS
  
 #### CONCOCT
 
+Primero activemos el ambiente
+
+```{bash eval=FALSE}
+conda activate concoct_env
+```
+
+Primero los contigs se tienen que partir en pedazos mas pequeños
+
+```{bash split assembly, eval=FALSE}
+cut_up_fasta.py htn.fasta -c 10000 -o 0 --merge_last -b SplitAssembly-htn.bed > htn.fasta-split10K.fa
+```
+
+Para creas latabla de cobertura se necesita primero indexar el archivo bam
+
+```{bash index bamfile, eval=FALSE}
+samtools index htn_sorted.bam
+```
+
+```{bash create coverage table, eval=FALSE}
+concoct_coverage_table.py SplitAssembly-htn.bed htn_sorted.bam > concoct_coverage_table_htn.tsv
+```
+
+Ahora si!! a correr concoct.
+
+
+```{bash run concot, eval=FALSE}
+concoct --coverage_file concoct_coverage_table_htn.tsv --composition_file htn.fasta-split10K.fa --clusters 400 --kmer_length 4 --threads 1 --length_threshold 3000 --basename concot --seed 4 --iterations 500
+```
+
+
 #### Vamb
 
 ### Calidad y limpieza
