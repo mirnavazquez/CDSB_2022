@@ -7,12 +7,12 @@ output: html_document
 
 ### Mapeo
 
-3. **Profundidad**: La profundidad de cada contig generado se realizó mediante el mapeo de las lecturas al ensamble. Este paso permite evaluar la calidad del ensable y es necesario para hacer la reconstrucción de genomas ya que, como veremos más adelante, es uno de los parámetros que toman en cuenta los bineadores. El mapeo se realizó con la herramienta BBMap del programa **[BBtools](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/)**.
+3. **Profundidad**: La profundidad de cada contig generado se realizó mediante el mapeo de las lecturas al ensamble. Este paso permite evaluar la calidad del ensable y es necesario para hacer la reconstrucción de genomas ya que, como veremos más adelante, es uno de los parámetros que toman en cuenta los "bineadores". El mapeo se realizó con la herramienta BBMap del programa **[BBtools](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/)**.
 
-   ```shell
-   bash /home/programs/bbmap/bbmap.sh ref=data/htn.fasta in1=data/htn_1.fastq in2=data/htn_2.fastq out=data/htn.sam kfilter=22 subfilter=15 maxindel=80 bamscript=src/sam2bam.sh covstats=data/htn.covstats scafstats=data/htn.scafstats
-   bash src//sam2bam.sh
-   ```
+```{bash eval=F}
+bash /home/programs/bbmap/bbmap.sh ref=data/htn.fasta in1=data/htn_1.fastq in2=data/htn_2.fastq out=data/htn.sam kfilter=22 subfilter=15 maxindel=80 bamscript=src/sam2bam.sh covstats=data/htn.covstats scafstats=data/htn.scafstats
+bash src//sam2bam.sh
+```
 
 ### Binning
 
@@ -26,28 +26,25 @@ La presente práctica sólo es una representación del flujo de trabajo, sin emb
 
 Conéctate al servidor:
 
-```shell
+```{bash eval=F}
 ssh USER@hpc-matematicas-z.fciencias.unam.mx
-```
-
-Crea tu espacio de trabajo y una liga símbólica hacia los datos que se usarán:
-
-# ESTA PARTE ME CAUSA CONFLICTO # La de crear asi los directorios? podríamos quitarla y que hagann su propia estructura de trabajo. Solo en las lineas de comando hay que quitar entonces las rutas relativas para que puedan copiar y pegar la linea sin error
-
-
-```shell
-mkdir -p htn/{data,results,logs}
-cd htn
-ln -s /home/diana/htn/data/* .  
-cd ..
 ```
 
 #### MaxBin
 
+Crea tu espacio de trabajo y una liga símbólica hacia los datos que se usarán:
+
+```{bash eval=F}
+mkdir -p 07.MaxBin/{data,results,logs}
+cd 07.MaxBin/
+ln -s /home/diana/samples/htn/data/htn.fasta data/  
+ln -s /home/diana/samples/htn/data/htn-depth.txt  data/ 
+```
+
 ```{bash run MaxBin2, eval=FALSE}
 run_MaxBin.pl -contig data/htn.fasta -out results/maxbin/ -abund data/htn-depth.txt
 ```
-**131 bins, 58.37 min, puede mejorar si se bajan las iteraciones (deafult 50) y se indican los nodos (default 1)**
+**131 bins, 58.37 min, puede mejorar si se bajan las iteraciones (deafult 50) y se indican los nodos (default 1)** OKAY BAJEMOS LAS ITERACIONES A 1. --- YO NO SE POR QUE NO PUEDO INSTALAR ESTE AMBIENTE
 
 #### BinSanity
 
