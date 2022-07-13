@@ -1,6 +1,6 @@
 ---
 title: "TIBs-CDSB-Mapping"
-author: "Diana Oaxaca y Mirna Vazquez Rosas Landaa"
+author: "Diana Oaxaca y Mirna Vazquez Rosas Landa"
 date: '2022-07-11'
 output: html_document
 ---
@@ -8,6 +8,15 @@ output: html_document
 ### Mapeo
 
 3. **Profundidad**: La profundidad de cada contig generado se realizó mediante el mapeo de las lecturas al ensamble. Este paso permite evaluar la calidad del ensable y es necesario para hacer la reconstrucción de genomas ya que, como veremos más adelante, es uno de los parámetros que toman en cuenta los "bineadores". El mapeo se realizó con la herramienta BBMap del programa **[BBtools](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/)**.
+
+
+```{bash eval=F}
+mkdir -p 01.Mapeo/{data,results,logs}
+cd 01.Mapeo/
+ln -s /home/diana/samples/htn/data/htn.fasta data/  
+ln -s /home/diana/samples/htn/data/htn*.fastq  data/ 
+```
+
 
 ```{bash eval=F}
 bash /home/programs/bbmap/bbmap.sh ref=data/htn.fasta in1=data/htn_1.fastq in2=data/htn_2.fastq out=data/htn.sam kfilter=22 subfilter=15 maxindel=80 bamscript=src/sam2bam.sh covstats=data/htn.covstats scafstats=data/htn.scafstats
@@ -35,8 +44,8 @@ ssh USER@hpc-matematicas-z.fciencias.unam.mx
 Crea tu espacio de trabajo y una liga símbólica hacia los datos que se usarán:
 
 ```{bash eval=F}
-mkdir -p 07.MaxBin/{data,results,logs}
-cd 07.MaxBin/
+mkdir -p 02.MaxBin/{data,results,logs}
+cd 02.MaxBin/
 ln -s /home/diana/samples/htn/data/htn.fasta data/  
 ln -s /home/diana/samples/htn/data/htn-depth.txt  data/ 
 ```
@@ -44,20 +53,15 @@ ln -s /home/diana/samples/htn/data/htn-depth.txt  data/
 ```{bash run MaxBin2, eval=FALSE}
 run_MaxBin.pl -contig data/htn.fasta -out results/maxbin/ -abund data/htn-depth.txt
 ```
-**131 bins, 58.37 min, puede mejorar si se bajan las iteraciones (deafult 50) y se indican los nodos (default 1)** OKAY BAJEMOS LAS ITERACIONES A 1. --- YO NO SE POR QUE NO PUEDO INSTALAR ESTE AMBIENTE
-
-#### BinSanity
-
-```{bash create normalized coverage file, eval=FALSE}
-Binsanity-profile -i data/htn.fasta -s data/ -c results/binsanity/binsanity-profile
-```
-
-**esta sección aún no sale**
-```{bash run Binsanity-wf, eval=FALSE}
-Binsanity-wf -f data/ -l htn.fasta -c results/binsanity/binsanity-profile.cov.x100.lognorm -o results/binsanity/htn-BinsanityWF/
-```
 
 #### MetaBat
+
+```{bash eval=F}
+mkdir -p 03.Metabat/{data,results,logs}
+cd 03.Metabat/
+ln -s /home/diana/samples/htn/data/htn.fasta data/  
+ln -s /home/diana/samples/htn/data/htn_sorted.bam  data/ 
+```
 
 Para MetaBat lo primero que tenemos que hacer es crear un archivo de profundidad utilizando el script **jgi_summarize_bam_contig_depths**.
 
@@ -70,7 +74,7 @@ conda activate metabat
 Como cualquier otro programa **jgi_summarize_bam_contig_depths** tiene opciones, podemos revisarlas. 
 
 ```{bash eval=FALSE}
-jgi_summarize_bam_contig_depths  --outputDepth htn-depth.txt htn_sorted.bam
+jgi_summarize_bam_contig_depths --outputDepth htn-depth.txt htn_sorted.bam
 ```
 
 Okay... exploremos el archivo con **head**
@@ -97,9 +101,14 @@ El resto de argumentos que vamos a usar se refieren a:
 metabat -i htn.fasta -a /home/mirna/03.Mapeo/htn-depth.txt -o bins -t 1 --minCVSum 0 --saveCls -d -v --minCV 0.1 -m 1500
 ```
 
-**** TOMO 20 MINUTOS ***
- 
 #### CONCOCT
+
+```{bash eval=F}
+mkdir -p 04.Concoct/{data,results,logs}
+cd 04.Concoct/
+ln -s /home/diana/samples/htn/data/htn.fasta data/  
+ln -s /home/diana/samples/htn/data/htn_sorted.bam  data/ 
+```
 
 Primero activemos el ambiente
 
@@ -113,7 +122,7 @@ Primero los contigs se tienen que partir en pedazos mas pequeños
 cut_up_fasta.py htn.fasta -c 10000 -o 0 --merge_last -b SplitAssembly-htn.bed > htn.fasta-split10K.fa
 ```
 
-Para creas latabla de cobertura se necesita primero indexar el archivo bam
+Para creas la tabla de cobertura se necesita primero indexar el archivo bam
 
 ```{bash index bamfile, eval=FALSE}
 samtools index htn_sorted.bam
@@ -143,19 +152,6 @@ Extract bins as individual fasta.
 mkdir bins-concot
 extract_fasta_bins.py  htn.fasta merged-htn-gt3000.csv --output_path bins-concot
 ```
-
-#### Vamb
-```{bash activate environment, eval=FALSE}
-conda activate /home/mirna/miniconda3/envs/vamb_env
-vamb -o _  --outdir results/vamb --fasta data/htn.fasta --jgi htn.depth.txt
-```
-**el error dice que la columna 5 deben ser varianzas y si lo son, hay un issue que detalla más pasos previos para el archivo depth, no lo entiendo, hay que checarlo.**
-
-### Calidad y limpieza
-
-#### CheckM
-
-#### mmGenome
 
 ### Refinamiento
 
