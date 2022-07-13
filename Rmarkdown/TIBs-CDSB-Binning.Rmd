@@ -156,3 +156,51 @@ extract_fasta_bins.py  htn.fasta merged-htn-gt3000.csv --output_path bins-concot
 ### Refinamiento
 
 #### DASTool
+
+Preparing input files.
+
+```{bash, eval=FALSE}
+Fasta_to_Scaffolds2Bin.sh -i /home/mirna/05.Concoct/bins-concot -e fa > htn_concot.scaffolds2bin.tsv
+
+Fasta_to_Scaffolds2Bin.sh -i /home/mirna/04.Metabat2 -e fa > htn.scaffolds2bin.tsv
+```
+
+```{bash DAS default, eval=FALSE}
+DAS_Tool -i htn_concot.scaffolds2bin.tsv,htn.scaffolds2bin.tsv -l concoct,metabat -c htn.fasta -o htn_bins --debug -t 1 --write_bins 1 --search_engine blast >DAStools-log_htn 
+```
+
+### CheckM
+
+```{bash, eval=FALSE}
+#/home/mirna/00.Programs/miniconda3/envs/py27/bin/.checkm data setRoot /home/mirna/00.Programs/miniconda3/envs/py27/check_db
+conda activate py27
+checkm  lineage_wf -t 20 -x fa DAStools-log_htn CheckM_DAS_Tool -f CheckM-DAS_Tool_bins.txt
+```
+
+Vamos a explorar la salida de checkM
+
+```{r}
+library(tidyverse)
+library(writexl)
+library(patchwork)
+library(ggplot2)
+# CheckM -------------------------------------------------------------------####
+checkm<-read.table(
+  "CheckM-DAS_Tool_bins.txt", 
+  sep = "", header = F, 
+  na.strings ="", stringsAsFactors= F)
+# Extracting good quality bins Megahit ------------------------------------####
+colnames(checkm)<-c("Bin_Id", "Marker", "lineage", "Number_of_genomes", 
+                         "Number_of_markers", "Number_of_marker_sets", 
+                         "0", "1", "2", "3", "4", "5", "Completeness", 
+                         "Contamination", "Strain_heterogeneity")  
+
+good_bins<-checkm %>%
+  select(Bin_Id, Marker, Completeness, Contamination) %>%
+  filter(Completeness >= 50.00) %>%
+  filter(Contamination <= 10.00) 
+```
+
+
+
+
