@@ -11,6 +11,14 @@ output: html_document
 
 Vamos a mapear utilizando la herramienta BBMap del programa **[BBtools](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/)**. Y samtools. 
 
+**¡Manos a la obra!**
+
+Conéctate al servidor:
+
+```{bash eval=F}
+ssh USER@hpc-matematicas-z.fciencias.unam.mx
+```
+
 Primero crea tu carpera y una liga simbolica a los datos:
 
 ```{bash acomodando archivos eval=F}
@@ -20,6 +28,13 @@ ln -s /home/diana/samples/htn/data/htn.fasta data/
 ln -s /home/mirna/03.Mapeo/01.Trimm_reads/htn*.fastq  data/ 
 ```
 
+Primero que nada activa tu ambiente de conda.
+
+```{bash  eval=F}
+conda activate bbmap
+```
+
+Ahora ¡sí! explora las opciones de bbmap, y vamos a hacer nuestro primer mapeo.
 
 ```{bash mapeando eval=F}
 bbmap.sh ref=data/htn.fasta in1=data/htn_1-short.fastq in2=data/htn_2-short.fastq out=results/htn.sam kfilter=22 subfilter=15 maxindel=80 
@@ -31,7 +46,9 @@ samtools view -bShu htn.sam | samtools sort -@ 94 -o htn_sorted.bam
 samtools index htn_sorted.bam
 ```
 
-Exploremos las opciones de bbmap, que hace el argumento **bamscript**. Que hace?
+# Discutamos
+
+https://docs.google.com/document/d/1iiw-q-90nATg-RNTd9nU8L1XE5xoDRC6j19JC1GiPIk/edit?usp=sharing
 
 ### Binning
 
@@ -41,33 +58,35 @@ Utilizaremos varios programas para hacer la reconstrucción de los genomas y har
 
 La presente práctica sólo es una representación del flujo de trabajo, sin embargo, no sustituye los manuales de cada programa y el flujo puede variar dependiendo del tipo de datos y pregunta de investigación.
 
-**¡Manos a la obra!**
-
-Conéctate al servidor:
-
-```{bash eval=F}
-ssh USER@hpc-matematicas-z.fciencias.unam.mx
-```
-
 #### MaxBin
 
 Crea tu espacio de trabajo y una liga símbólica hacia los datos que se usarán:
 
 ```{bash eval=F}
-mkdir -p 02.MaxBin/{data,results,logs}
+mkdir -p 02.MaxBin/{data,results}
 cd 02.MaxBin/
 ln -s /home/diana/samples/htn/data/htn.fasta data/  
 ln -s /home/diana/samples/htn/data/htn-depth.txt  data/ 
 ```
 
+Okay, ahora activa tu ambiente.
+
+```{bash, eval=False}
+conda avtivate maxbin
+```
+
+Explora las opciones y luego ahora si, a calcular bins. 
+
 ```{bash run MaxBin2, eval=FALSE}
-run_MaxBin.pl -contig data/htn.fasta -out results/maxbin/ -abund data/htn-depth.txt
+run_MaxBin.pl -contig data/htn.fasta -out results/ -abund data/htn-depth.txt
 ```
 
 #### MetaBat
 
+Okay vamos a utilizar otro progama. Crea tus ligas simbolicas :)
+
 ```{bash eval=F}
-mkdir -p 03.Metabat/{data,results,logs}
+mkdir -p 03.Metabat/{data,results}
 cd 03.Metabat/
 ln -s /home/diana/samples/htn/data/htn.fasta data/  
 ln -s /home/diana/samples/htn/data/htn_sorted.bam  data/ 
@@ -84,13 +103,13 @@ conda activate metabat
 Como cualquier otro programa **jgi_summarize_bam_contig_depths** tiene opciones, podemos revisarlas. 
 
 ```{bash eval=FALSE}
-jgi_summarize_bam_contig_depths --outputDepth htn-depth.txt htn_sorted.bam
+jgi_summarize_bam_contig_depths --outputDepth data/htn-depth.txt data/htn_sorted.bam
 ```
 
 Okay... exploremos el archivo con **head**
 
 ```{bash eval=FALSE}
-head htn-depth.txt
+head data/htn-depth.txt
 ```
 
 Para metabat solo necesitamos dos archivos principales:
@@ -105,16 +124,18 @@ El resto de argumentos que vamos a usar se refieren a:
  - d: salida corta
  - v: salida detallada
  - minCV: Cobertura media mínima de un contig en cada biblioteca para binning.
- - m: Tamaño mínimo de un contig para binning (debe ser >=1500). Usualmente usamos 2000 pero para el ejercicio usaremos 1500
+ - m: Tamaño mínimo de un contig para binning (debe ser >=1500). Usualmente usamos 2000.
  
 ```{bash running Metabat, eval=FALSE}
-metabat -i htn.fasta -a /home/mirna/03.Mapeo/htn-depth.txt -o bins -t 1 --minCVSum 0 --saveCls -d -v --minCV 0.1 -m 1500
+metabat -i data/htn.fasta -a data/htn-depth.txt -o results/bins -t 4 --minCVSum 0 --saveCls -d -v --minCV 0.1 -m 2000
 ```
 
 #### CONCOCT
 
+Okay vamos a utilizar otro progama. Crea tus ligas simbolicas :)
+
 ```{bash eval=F}
-mkdir -p 04.Concoct/{data,results,logs}
+mkdir -p 04.Concoct/{data,results}
 cd 04.Concoct/
 ln -s /home/diana/samples/htn/data/htn.fasta data/  
 ln -s /home/diana/samples/htn/data/htn_sorted.bam  data/ 
@@ -129,17 +150,17 @@ conda activate concoct_env
 Primero los contigs se tienen que partir en pedazos mas pequeños
 
 ```{bash split assembly, eval=FALSE}
-cut_up_fasta.py htn.fasta -c 10000 -o 0 --merge_last -b SplitAssembly-htn.bed > htn.fasta-split10K.fa
+cut_up_fasta.py data/htn.fasta -c 10000 -o 0 --merge_last -b results/SplitAssembly-htn.bed > results/htn.fasta-split10K.fa
 ```
 
 Para creas la tabla de cobertura se necesita primero indexar el archivo bam
 
 ```{bash index bamfile, eval=FALSE}
-samtools index htn_sorted.bam
+samtools index data/htn_sorted.bam
 ```
 
 ```{bash create coverage table, eval=FALSE}
-concoct_coverage_table.py SplitAssembly-htn.bed htn_sorted.bam > concoct_coverage_table_htn.tsv
+concoct_coverage_table.py results/SplitAssembly-htn.bed data/htn_sorted.bam > results/concoct_coverage_table_htn.tsv
 ```
 
 Ahora si!! a correr concoct.
@@ -147,21 +168,25 @@ Ahora si!! a correr concoct.
 Normalmente correriamos 500 iteraciones, pero esta vez solo haremos una.
 
 ```{bash run concot, eval=FALSE}
-concoct --coverage_file concoct_coverage_table_htn.tsv --composition_file htn.fasta-split10K.fa --clusters 400 --kmer_length 4 --threads 4 --length_threshold 3000 --basename concot --seed 4 --iterations 1
+concoct --coverage_file results/concoct_coverage_table_htn.tsv --composition_file results/htn.fasta-split10K.fa --clusters 400 --kmer_length 4 --threads 4 --length_threshold 3000 --basename concot --seed 4 --iterations 1
 ```
 
 Merge subcontig clustering into original contigs
 
 ```{bash merge step, eval=FALSE}
-merge_cutup_clustering.py concot_clustering_gt3000.csv > merged-htn-gt3000.csv
+merge_cutup_clustering.py results/concot_clustering_gt3000.csv > results/merged-htn-gt3000.csv
 ```
 
 Extract bins as individual fasta.
 
 ```{bash make fastafiles, eval=FALSE}
-mkdir bins-concot
+mkdir results/bins-concot
 extract_fasta_bins.py  htn.fasta merged-htn-gt3000.csv --output_path bins-concot
 ```
+
+# Discutamos
+
+https://docs.google.com/document/d/1iiw-q-90nATg-RNTd9nU8L1XE5xoDRC6j19JC1GiPIk/edit?usp=sharing
 
 ### Refinamiento
 
