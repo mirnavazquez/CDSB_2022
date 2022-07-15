@@ -1,5 +1,5 @@
 ---
-title: "TIBs-CDSB-Mapping"
+title: "TIBs-CDSB-Binning"
 author: "Diana Oaxaca y Mirna Vazquez Rosas Landa"
 date: '2022-07-11'
 output: html_document
@@ -7,21 +7,31 @@ output: html_document
 
 ### Mapeo
 
-3. **Profundidad**: La profundidad de cada contig generado se realizó mediante el mapeo de las lecturas al ensamble. Este paso permite evaluar la calidad del ensable y es necesario para hacer la reconstrucción de genomas ya que, como veremos más adelante, es uno de los parámetros que toman en cuenta los "bineadores". El mapeo se realizó con la herramienta BBMap del programa **[BBtools](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/)**.
+**Profundidad**: La profundidad de cada contig se calcula mediante el mapeo de las lecturas al ensamble. Este paso permite evaluar la calidad del ensable y es necesario para hacer la reconstrucción de genomas ya que, como veremos más adelante, es uno de los parámetros que toman en cuenta los "bineadores". 
 
+Vamos a mapear utilizando la herramienta BBMap del programa **[BBtools](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/)**. Y samtools. 
 
-```{bash eval=F}
-mkdir -p 01.Mapeo/{data,results,logs}
+Primero crea tu carpera y una liga simbolica a los datos:
+
+```{bash acomodando archivos eval=F}
+mkdir -p 01.Mapeo/{data,results}
 cd 01.Mapeo/
 ln -s /home/diana/samples/htn/data/htn.fasta data/  
-ln -s /home/diana/samples/htn/data/htn*.fastq  data/ 
+ln -s /home/mirna/03.Mapeo/01.Trimm_reads/htn*.fastq  data/ 
 ```
 
 
-```{bash eval=F}
-bash /home/programs/bbmap/bbmap.sh ref=data/htn.fasta in1=data/htn_1.fastq in2=data/htn_2.fastq out=data/htn.sam kfilter=22 subfilter=15 maxindel=80 bamscript=src/sam2bam.sh covstats=data/htn.covstats scafstats=data/htn.scafstats
-bash src//sam2bam.sh
+```{bash mapeando eval=F}
+bbmap.sh ref=data/htn.fasta in1=data/htn_1-short.fastq in2=data/htn_2-short.fastq out=results/htn.sam kfilter=22 subfilter=15 maxindel=80 
 ```
+
+```{bash creando bam file eval=F}
+cd results
+samtools view -bShu htn.sam | samtools sort -@ 94 -o htn_sorted.bam
+samtools index htn_sorted.bam
+```
+
+Exploremos las opciones de bbmap, que hace el argumento **bamscript**. Que hace?
 
 ### Binning
 
