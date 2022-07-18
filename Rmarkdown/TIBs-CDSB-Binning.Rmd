@@ -7,7 +7,7 @@ output: html_document
 
 ### Mapeo
 
-**Profundidad**: La profundidad de cada contig se calcula mediante el mapeo de las lecturas al ensamble. Este paso permite evaluar la calidad del ensable y es necesario para hacer la reconstrucción de genomas ya que, como veremos más adelante, es uno de los parámetros que toman en cuenta los "bineadores". 
+**Profundidad**: La profundidad de cada contig se calcula mapeando las lecturas al ensamble. Este paso permite evaluar la calidad del ensable y es necesario para hacer la reconstrucción de genomas ya que, como veremos más adelante, es uno de los parámetros que toman en cuenta los "bineadores". 
 
 Vamos a mapear utilizando la herramienta BBMap del programa **[BBtools](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/)**. Y samtools. 
 
@@ -31,7 +31,7 @@ ln -s /home/mirna/03.Mapeo/01.Trimm_reads/htn*.fastq  data/
 Primero que nada activa tu ambiente de conda.
 
 ```{bash  eval=F}
-conda activate bbmap
+conda activate bbmap_env
 ```
 
 Ahora ¡sí! explora las opciones de bbmap, y vamos a hacer nuestro primer mapeo.
@@ -72,13 +72,13 @@ ln -s /home/diana/samples/htn/data/htn-depth.txt  data/
 Okay, ahora activa tu ambiente.
 
 ```{bash, eval=False}
-conda avtivate maxbin
+conda avtivate maxbin_env
 ```
 
 Explora las opciones y luego ahora si, a calcular bins. 
 
 ```{bash run MaxBin2, eval=FALSE}
-run_MaxBin.pl -contig data/htn.fasta -out results/ -abund data/htn-depth.txt
+run_MaxBin.pl -contig data/htn.fasta -out results/maxbin -abund data/htn-depth.txt -max_iteration 2
 ```
 
 #### MetaBat
