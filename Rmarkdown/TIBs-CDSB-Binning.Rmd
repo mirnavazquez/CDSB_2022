@@ -97,7 +97,7 @@ Para MetaBat lo primero que tenemos que hacer es crear un archivo de profundidad
 Entonces primero activamos el ambinte.
 
 ```{bash eval=FALSE}
-conda activate metabat
+conda activate metabat_env
 ```
 
 Como cualquier otro programa **jgi_summarize_bam_contig_depths** tiene opciones, podemos revisarlas. 
@@ -116,15 +116,6 @@ Para metabat solo necesitamos dos archivos principales:
 
 - El ensamble
 - El archivo de profundidad
-
-El resto de argumentos que vamos a usar se refieren a:
-
- - minCVSum: Cobertura media  total mínima de un contig (suma de profundidad)
- - saveCls: guardar membresías de clúster como un formato de matriz
- - d: salida corta
- - v: salida detallada
- - minCV: Cobertura media mínima de un contig en cada biblioteca para binning.
- - m: Tamaño mínimo de un contig para binning (debe ser >=1500). Usualmente usamos 2000.
  
 ```{bash running Metabat, eval=FALSE}
 metabat -i data/htn.fasta -a data/htn-depth.txt -o results/bins -t 4 --minCVSum 0 --saveCls -d -v --minCV 0.1 -m 2000
@@ -174,14 +165,14 @@ concoct --coverage_file results/concoct_coverage_table_htn.tsv --composition_fil
 Merge subcontig clustering into original contigs
 
 ```{bash merge step, eval=FALSE}
-merge_cutup_clustering.py results/concot_clustering_gt3000.csv > results/merged-htn-gt3000.csv
+merge_cutup_clustering.py concot_clustering_gt3000.csv > results/merged-htn-gt3000.csv
 ```
 
 Extract bins as individual fasta.
 
 ```{bash make fastafiles, eval=FALSE}
 mkdir results/bins-concot
-extract_fasta_bins.py  htn.fasta merged-htn-gt3000.csv --output_path bins-concot
+extract_fasta_bins.py  data/htn.fasta results/merged-htn-gt3000.csv --output_path results/bins-concot
 ```
 
 # Discutamos
@@ -201,7 +192,8 @@ Fasta_to_Scaffolds2Bin.sh -i /home/mirna/04.Metabat2 -e fa > htn.scaffolds2bin.t
 ```
 
 ```{bash DAS default, eval=FALSE}
-DAS_Tool -i htn_concot.scaffolds2bin.tsv,htn.scaffolds2bin.tsv -l concoct,metabat -c htn.fasta -o htn_bins --debug -t 1 --write_bins 1 --search_engine blast >DAStools-log_htn 
+PATH=/home/programs:$PATH
+/home/programs/DAS_Tool/DAS_Tool -i htn_maxbin.contigs2bin.tsv,htn_metabat.scaffolds2bin.tsv,htn_concoct.scaffolds2bin.tsv -l maxbin,metabat,concoct -c data/htn.fasta -o results/htn_bins --debug -t 1 --write_bins 1 --search_engine diamond
 ```
 
 ### CheckM
