@@ -193,15 +193,14 @@ Fasta_to_Scaffolds2Bin.sh -i /home/mirna/04.Metabat2 -e fa > htn.scaffolds2bin.t
 
 ```{bash DAS default, eval=FALSE}
 PATH=/home/programs:$PATH
-/home/programs/DAS_Tool/DAS_Tool -i htn_maxbin.contigs2bin.tsv,htn_metabat.scaffolds2bin.tsv,htn_concoct.scaffolds2bin.tsv -l maxbin,metabat,concoct -c data/htn.fasta -o results/htn_bins --debug -t 1 --write_bins 1 --search_engine diamond
+/home/programs/DAS_Tool/DAS_Tool -i htn_maxbin.contigs2bin.tsv,htn_metabat.scaffolds2bin.tsv,htn_concoct.scaffolds2bin.tsv -l maxbin,metabat,concoct -c data/htn.fasta -o results/htn_bins --debug --t 4 --write_bins --search_engine diamond
 ```
 
 ### CheckM
 
 ```{bash, eval=FALSE}
-#/home/mirna/00.Programs/miniconda3/envs/py27/bin/.checkm data setRoot /home/mirna/00.Programs/miniconda3/envs/py27/check_db
-conda activate py27
-checkm  lineage_wf -t 20 -x fa DAStools-log_htn CheckM_DAS_Tool -f CheckM-DAS_Tool_bins.txt
+conda activate checkm_env
+checkm  lineage_wf -t 4 -x fa DAStools-log_htn CheckM_DAS_Tool -f CheckM-DAS_Tool_bins.txt
 ```
 
 Vamos a explorar la salida de checkM
