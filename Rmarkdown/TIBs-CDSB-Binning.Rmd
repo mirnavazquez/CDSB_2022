@@ -218,13 +218,19 @@ checkm  lineage_wf -t 4 -x fa /home/mirna/05.DAS_tool/results/htn_bins_DASTool_b
 
 Vamos a explorar la salida de checkM
 
+Primero me puedes decir cuantas lineas tiene tu archivo?
+
+Okay... ahora vamos a remover esas lineas feas. 
+
+```{bash}
+sed -e '1,3d' CheckM-DAS_Tool_bins.txt | sed -e '37d' >CheckM-DAS_Tool_bins_mod.txt
+```
+
+
 ```{r}
 library(tidyverse)
 # CheckM -------------------------------------------------------------------####
-checkm<-read.table(
-  "CheckM-DAS_Tool_bins.txt", 
-  sep = "", header = F, 
-  na.strings ="", stringsAsFactors= F)
+checkm<-read.table("CheckM-DAS_Tool_bins_mod.txt", sep = "", header = F, na.strings ="", stringsAsFactors= F)
 # Extracting good quality bins Megahit ------------------------------------####
 colnames(checkm)<-c("Bin_Id", "Marker", "lineage", "Number_of_genomes", 
                          "Number_of_markers", "Number_of_marker_sets", 
@@ -237,6 +243,37 @@ good_bins<-checkm %>%
   filter(Contamination <= 10.00) 
 ```
 
+Okay... quiza podamos recuperar algunos mas.
+
+```{r}
+medium_bins<-checkm %>%
+  select(Bin_Id, Marker, Completeness, Contamination) %>%
+  filter(Completeness >= 50.00) %>%
+  filter(Contamination <= 20.00) 
+```
+
+Muy bien vamos a extraer esos bins.
+
+```{r}
+bins<-medium_bins$Bin_Id
+
+write.table(bins, "lista_medium_bins", quote = F, row.names = F, col.names = F)
+```
+
+### Mis Bins
+
+```{bash eval=F}
+mkdir  -p 07.Bins/{Genoma,Proteoma}
+cd 07.Bins
+```
+
+```{bash}
+sed 's#bin#cp /home/mirna/05.DAS_tool/results/htn_bins_DASTool_bins/bin#g' lista_medium_bins | sed 's#$#.fa .#g' > copy_bins.sh
+```
+
+Aja! falta el bin de maxbin, okay ... ese vamos a intentar limpiarlo.
+
+### mmgenome
 
 
 
