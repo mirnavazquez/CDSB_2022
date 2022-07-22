@@ -260,54 +260,6 @@ bins<-medium_bins$Bin_Id
 write.table(bins, "lista_medium_bins", quote = F, row.names = F, col.names = F)
 ```
 
-### mmgenome
-
-```{r}
-library(mmgenome2)
-#load a bin
-mm <- mmload(
-  assembly = "/home/mirna/05.DAS_tool/results/htn_bins_DASTool_bins/maxbin.024_sub.fa",
-  coverage = "/home/mirna/03.Metabat/data/",
-  verbose = TRUE,
-  kmer_pca = FALSE,
-  kmer_BH_tSNE = FALSE
-)
-#plot all combinations of coverage depths
-mmplot_pairs(mm,
-             variables = c("cov_4991_11_H1",
-                           "cov_4993_5_H1",
-                           "cov_4993_5_H3",
-                           "cov_4993_5_H4",
-                           "cov_4993_5_LG"),
-             x_scale = "log10",
-             y_scale = "log10",
-             alpha = 0.1,
-             size_scale = 0.4,
-             textsize = 2)
-#See the stats for the data frame
-mmstats(mm)
-#mmplot one combo from above that has clear outliers
-mmplot(mm,
-       x = "cov_4991_11_H1",
-       y = "cov_4993_5_H1",
-       min_length = 2500,
-       color_by = "phylum",
-       x_scale = "log10",
-       #x_limits = c(15, 60),
-       y_scale = "log10",
-       #y_limits = c(15, 60),
-       locator = TRUE #uncomment to use the locator and return a selection
-       #selection = selection
-)
-#select data
-shiny_selection = data.frame(cov_4991_11_H1 = c(1.163, 1.178, 0.333, 1.147, 3.412, 2.537),
-                             cov_4993_5_H1 = c(42.885, 43.418, 30.819, 22.036, 29.627, 38.29))#subset data and export cleaned bin
-mmsubset <- mmextract(mm, selection = shiny_selection)
-#Copy this information into the excel file on the drive
-mmexport(mmsubset, assembly = assembly, file = "D4993_C5_H1_Bin_396_clean.fna")
-
-```
-
 
 ### Mis Bins
 
@@ -320,9 +272,76 @@ cd 08.Bins
 sed 's#bin#cp /home/mirna/05.DAS_tool/results/htn_bins_DASTool_bins/bin#g' lista_medium_bins | sed 's#$#.fa .#g' > copy_bins.sh
 ```
 
-Aja! falta el bin de maxbin, okay ... ese vamos a intentar limpiarlo.
+Ahora un ejercicio.
+
+```{bash}
+grep ">" *.fa
+```
+
+Cual es el problema?
+
+```{r}
+change_bin_name<-function(ruta, ambiente){
+ruta_original<-getwd()
+setwd(ruta)
+filez <- list.files()
+newname<-paste0(ambiente, "_", filez)
+file.rename(from=filez, to=newname)
+filez <- list.files()
+file.rename(from=filez, to=sub(pattern="\\.", replacement="_", filez))
+setwd(ruta_original)
+}
+```
+
+```{r}
+change_bin_name("/home/mirna/07.Bins/Genoma", "htn")
+```
 
 
+```{r setup, eval=FALSE}
+library(phylotools)
+library(tidyverse)
+
+add_names_to_seqs <-function(nombre_del_archivo){
+  filenames<-unlist(strsplit(nombre_del_archivo, "/"))
+  filenames<-filenames[[grep("fa", filenames)]]
+  divide<-unlist(strsplit(filenames, "\\."))
+  bin_name<-divide[1]
+  termination<-divide[2]
+  old_name<-get.fasta.name(nombre_del_archivo)
+  new_name<-paste0( bin_name, "-scaffold-", old_name) 
+  ref2 <- data.frame(old_name, new_name)
+  out_file<-paste0(bin_name, "_renamed", ".", termination)
+  rename.fasta(infile = nombre_del_archivo, ref_table = ref2, outfile = out_file)
+}
+
+files<-list.files(".")
+files<-paste0("/home/mirna/07.Bins/Genoma/", files)
+
+map(files, add_names_to_seqs)
+```
+
+Veamos si funciono
+
+```{bash}
+grep ">" *.fa
+```
+
+Muy bien, pongamos eso en una nueva carpeta y esperemos lo mejor jaja, no es cierto, si movamoslo a otra carpeta, pero quitemos en renamed.
+
+```{r}
+change_bin_name<-function(ruta){
+ruta_original<-getwd()
+setwd(ruta)
+filez <- list.files()
+file.rename(from=filez, to=sub(pattern="_renamed", replacement="", filez))
+setwd(ruta_original)
+}
+```
+
+```{r}
+change_bin_name("/home/mirna/07.Bins/Genoma/01.Bins_named")
+```
 
 
 
