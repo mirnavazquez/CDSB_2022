@@ -343,5 +343,5 @@ setwd(ruta_original)
 change_bin_name("/home/mirna/07.Bins/Genoma/01.Bins_named")
 ```
 
-
+Creen que puedan optimizar esos scripts? discute en tu equipo si tienes una mejor idea!
 
