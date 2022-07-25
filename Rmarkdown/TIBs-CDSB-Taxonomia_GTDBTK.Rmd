@@ -1,0 +1,79 @@
+---
+title: "TIBs-CDSB-Taxonomy"
+author: "Mirna Vazquez Rosas Landa"
+date: '2022-07-22'
+output: html_document
+---
+### Taxonomy
+
+Vamos a explorar la taxonomia de estos bins con [GTDB-tk](https://github.com/Ecogenomics/GTDBTk).
+
+
+```{bash eval=F}
+mkdir -p 08.GTDBTK/{data,results}
+cd 08.GTDBTK/
+ln -s /home/diana/samples/htn/data/htn.fasta data/  
+ln -s /home/diana/samples/htn/data/htn_sorted.bam  data/ 
+```
+
+
+```{bash, eval=FALSE}
+export GTDBTK_DATA_PATH=/home/DB/release202/ 
+nohup gtdbtk classify_wf --genome_dir /home/mirna/04.AndreasData/07.Didi_bins/bins/02.Bins_renamed --out_dir /home/mirna/04.AndreasData/07.Didi_bins/bins/03.GTDB-tk --cpus 20 > 2021_05_20-GTDBK-log &
+```
+
+Vamos a visualizar los datos.
+
+Primero, leamos los datos.
+
+```{r}
+library(tidyverse)
+GTDBK_ar_didi<-read.table(
+  here::here("data/02.GTDB-tk/01.Didi_bins/gtdbtk.ar122.summary.tsv"), 
+  sep = "\t", header = T, 
+                     na.strings ="", stringsAsFactors= F) %>%
+  as_tibble()
+
+GTDBK_bac_didi<-read.table(
+  here::here("data/02.GTDB-tk/01.Didi_bins/gtdbtk.bac120.summary.tsv"), 
+  sep = "\t", header = T, 
+                      na.strings ="", stringsAsFactors= F)%>%
+  as_tibble()
+
+GTDBTK_didis<-bind_rows(GTDBK_ar_didi, GTDBK_bac_didi)
+```
+
+
+```{r}
+library(tidyverse)
+Guaymas_subsurface<-GTDBK %>%
+  select(user_genome, classification, Sample, Site, Depth_mbsf, 
+         Temperature_C) %>%
+  separate(classification, c("Domain", "Phylum", "Class", "Order",
+                             "Family", "Genus", "Species"), sep= ";") %>%
+  rename(Bin_name=user_genome)  %>%
+  unite(Bin_name_2, c("Bin_name", "Phylum"), remove = FALSE) %>%
+  select(Bin_name, Domain, Phylum, Class, Order, Family, Genus, 
+         Species, Bin_name_2, Sample, Site, Depth_mbsf, Temperature_C)
+
+```
+
+Vamos a hacer un plot
+```{r}
+GTDBtk<-Guaymas_subsurface_clean %>%
+  count(Domain, Phylum) %>%
+  rename(Number_of_MAGs = n) %>%
+  ggplot(aes(x = Domain, 
+             y = Number_of_MAGs, fill = Phylum)) + 
+  geom_bar(stat = "identity", position=position_dodge())+
+  theme_minimal()
+```
+
+Puede ser interactivo tambien.
+
+```{r}
+library(plotly)
+GTDBtk_p_fig <- ggplotly(GTDBtk)
+```
+
+
