@@ -12,7 +12,7 @@ Vamos a utilizar prodigal para predecir las proteinas:
 for i in /home/mirna/07.Bins/Genoma/01.Bins_named/*.fa ; do prodigal -i $i -o $i.txt -a $i.faa ; done
 ```
 
-Veamoos un poco la salida
+Veamos un poco la salida
 
 ```{r}
 grep ">" *.faa
