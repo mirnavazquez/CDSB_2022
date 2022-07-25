@@ -7,9 +7,9 @@ output: html_document
 
 ### Preprocesamiento
 
-Para obtener los datos necesarios para hacer la reconstrucción de genomas, fue necesario hacer un preprocesamiento de estos, el cual consistió en los siguientes pasos:
+Para hacer la reconstrucción de genomas, fue necesario hacer un preprocesamiento de las lecturas generadas por el secuenciador, este preprocesamiento consistió en los siguientes pasos:
 
-1. **Control de calidad:** se verificó la calidad de las lecturas con **[FastQC](https://github.com/s-andrews/FastQC),** este genera reportes que nos permiten verificar el estado de las lecturas, los posibles problemas y que futuros análisis son necesarios. La limpieza se hizo con **[TrimGalore](https://github.com/FelixKrueger/TrimGalore)**, que nos permite eliminar lecturas de baja calidad, adaptadores, etc.
+1. **Control de calidad:** se verificó la calidad de las lecturas con **[FastQC](https://github.com/s-andrews/FastQC),** este genera reportes que nos permiten verificar el estado de las lecturas, los posibles problemas y qué futuros análisis son necesarios. La limpieza se hizo con **[TrimGalore](https://github.com/FelixKrueger/TrimGalore)**, que nos permite eliminar lecturas de baja calidad, adaptadores, etc.
 
    ```shell
    bash src/01.qc_preprocessing.sh
