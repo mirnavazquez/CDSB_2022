@@ -58,7 +58,7 @@ Utilizaremos varios programas para hacer la reconstrucción de los genomas y har
 
 La presente práctica sólo es una representación del flujo de trabajo, sin embargo, no sustituye los manuales de cada programa y el flujo puede variar dependiendo del tipo de datos y pregunta de investigación.
 
-#### MaxBin
+#### [MaxBin](https://sourceforge.net/p/maxbin/code/ci/master/tree/)
 
 Crea tu espacio de trabajo y una liga símbólica hacia los datos que se usarán:
 
@@ -81,7 +81,7 @@ Explora las opciones y ahora si, a calcular bins.
 run_MaxBin.pl -contig data/htn.fasta -out results/maxbin -abund data/htn-depth.txt -max_iteration 2
 ```
 
-#### MetaBat
+#### [MetaBat](https://bitbucket.org/berkeleylab/metabat/src/master/)
 
 Okay vamos a utilizar otro progama. Crea tus ligas simbolicas :)
 
@@ -121,7 +121,7 @@ Para metabat solo necesitamos dos archivos principales:
 metabat -i data/htn.fasta -a data/htn-depth.txt -o results/bins -t 4 --minCVSum 0 --saveCls -d -v --minCV 0.1 -m 2000
 ```
 
-#### CONCOCT
+#### [CONCOCT](https://concoct.readthedocs.io/en/latest/)
 
 Okay vamos a utilizar otro programa. Crea tus ligas simbolicas :)
 
@@ -181,7 +181,7 @@ https://docs.google.com/document/d/1iiw-q-90nATg-RNTd9nU8L1XE5xoDRC6j19JC1GiPIk/
 
 ### Refinamiento
 
-#### DASTool
+#### [DASTool](https://github.com/cmks/DAS_Tool)
 
 Preparing input files.
 
@@ -196,7 +196,7 @@ PATH=/home/programs:$PATH
 /home/programs/DAS_Tool-1.1.2/DAS_Tool -i htn_maxbin.contigs2bin.tsv,htn_metabat.scaffolds2bin.tsv,htn_concoct.scaffolds2bin.tsv -l maxbin,metabat,concoct -c data/htn.fasta -o results/htn_bins --debug -t 4  --search_engine diamond --write_bins 1 
 ```
 
-### CheckM
+### [CheckM](https://github.com/Ecogenomics/CheckM/wiki)
 
 Muy bien, crea un nuevo directorio y entra en él.
 
@@ -243,7 +243,7 @@ good_bins<-checkm %>%
   filter(Contamination <= 10.00) 
 ```
 
-Okay... quiza podamos recuperar algunos mas.
+Okay... quizá podamos recuperar algunos más.
 
 ```{r}
 medium_bins<-checkm %>%
@@ -252,7 +252,7 @@ medium_bins<-checkm %>%
   filter(Contamination <= 20.00) 
 ```
 
-Muy bien vamos a extraer esos bins.
+Muy bien, vamos a extraer esos bins.
 
 ```{r}
 bins<-medium_bins$Bin_Id
@@ -278,7 +278,7 @@ Ahora un ejercicio.
 grep ">" *.fa
 ```
 
-Cual es el problema?
+Cuál es el problema?
 
 ```{r}
 change_bin_name<-function(ruta, ambiente){
@@ -321,7 +321,7 @@ files<-paste0("/home/mirna/07.Bins/Genoma/", files)
 map(files, add_names_to_seqs)
 ```
 
-Veamos si funciono
+Veamos si funcionó
 
 ```{bash}
 grep ">" *.fa
