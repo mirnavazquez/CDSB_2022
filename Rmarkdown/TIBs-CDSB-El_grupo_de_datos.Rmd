@@ -18,13 +18,15 @@ Los datos con los que trabajaremos se enlistan en la siguiente tabla.
 | tea       | [PRJNA698063](https://www.ebi.ac.uk/ena/browser/view/PRJNA698063) | [**Niche differentiation of microbes......**)](https://www.researchsquare.com/article/rs-347764/v1) |
 
 #### htn
-**Sinopsis**: Se realizó secuenciación metagenómica de heces de pacientes sanos, con pre-hipertensión y con hipertensión. Los pacientes con enfermedad presentaron niveles d ediversidad drásticamenete más bajos en comparación con el grupo control. También hiciero trasplantes fecales de pacientes enfermos a ratones axénicos, el efecto del trasplante demostró que la hipertensión observada en los ratones era derivada de la microbiota trasplantada.
+**Sinopsis**: Se realizó secuenciación metagenómica de heces de pacientes sanos (**control**), con pre-hipertensión (**pHTN**) y con hipertensión (**HTN**). Los pacientes con enfermedad presentaron niveles de diversidad drásticamente más bajos en comparación con el grupo control. También hicieron trasplantes fecales de pacientes enfermos a ratones axénicos, el efecto del trasplante demostró que la hipertensión observada en los ratones era derivada de la microbiota trasplantada.
 
 Los datos crudos: PRJEB13870
 https://www.ebi.ac.uk/ena/browser/view/PRJEB13870?show=reads
 
 El artículo: Gut microbiota dysbiosis contributes to the development of hypertension sobre microbioma e hipertensión
 https://link.springer.com/article/10.1186/s40168-016-0222-x#Ack1
+
+Li, J., Zhao, F., Wang, Y. et al. Gut microbiota dysbiosis contributes to the development of hypertension. Microbiome 5, 14 (2017). https://doi.org/10.1186/s40168-016-0222-x
 
 #### pulque. 
 
@@ -36,23 +38,30 @@ https://www.ebi.ac.uk/ena/browser/view/PRJNA603591
 El articulo: Genomic profiling of bacterial and fungal communities and their predictive functionality during pulque fermentation by whole-genome shotgun sequencing
 https://www.nature.com/articles/s41598-020-71864-4
 
+Chacón-Vargas, K., Torres, J., Giles-Gómez, M. et al. Genomic profiling of bacterial and fungal communities and their predictive functionality during pulque fermentation by whole-genome shotgun sequencing. Sci Rep 10, 15115 (2020). https://doi.org/10.1038/s41598-020-71864-4
+
 #### sedimento
 Microbioma de sedimento del Microbial Dark Matter project (MDMP)
 
-**Sinopsis**: El MDMP es realizado por el Departamento de Energía del JGI, se enfoca en resolver nuevos superphyla de bacterias y arqueas, en la fase uno se secuenciaron 201 linajes enriquecidos no cultivados, mediante single cell sequencing. En esta segunda fase se utilizaron datos publicos de diferentes muestras y regiones dle mundo. Aún se siguen procesando datos y hasta el momento han encontrado prometedores SAGs incluído un phylum novedoso en Deward Creek.
+**Sinopsis**: El MDMP es realizado por el Departamento de Energía del JGI, se enfoca en resolver nuevos superphyla de bacterias y arqueas, en la fase uno se secuenciaron 201 linajes enriquecidos no cultivados, mediante single cell sequencing. En esta segunda fase se utilizaron datos públicos de diferentes muestras y regiones del mundo. Aún se siguen procesando datos y hasta el momento han encontrado prometedores SAGs incluído un phylum novedoso en Deward Creek.
 
 Los datos: PRJNA364776
 https://www.ebi.ac.uk/ena/browser/view/PRJNA364776
 
 El proyecto: Microbial Dark Matter project phaseII https://www.osti.gov/award-doi-service/biblio/10.46936/10.25585/60000876  
 
+
+Hedlund, Brian ORCID [1] Woyke, Tanja ORCID [2] Pester, Michael ORCID [3] Spear, John ORCID [4] Hallam, Steven ORCID [5] Eisen, Jonathan [6] Elshahed, Mostafa ORCID [7] Becraft, Eric [8] Dunfield, Peter [9] Teske, Andreas [10] van Heerden, et al. Joint Genome Institute Award.
+
 #### tea
 Microbioma de Camellia sinensis (la planta del té verde y negro)
 
-**Sinopsis**: En este trabajo se secuenciaron librerias de Illumina de muestras rizosféricas y endofíticas de C. sinensis, el estudio hace una descripción general de la taxonómia y predicción funcional del microbioma, y hace enfasis en las diferencias encontradas en la parte endofítica y rizosféricas. 
+**Sinopsis**: En este trabajo se secuenciaron librerias de Illumina de muestras rizosféricas y endofíticas de _C. sinensis_, el estudio hace una descripción general de la taxonomía y predicción funcional del microbioma, hace énfasis en las diferencias encontradas en la parte endofítica y rizosféricas. 
 
 Los datos: PRJNA698063
 https://www.ebi.ac.uk/ena/browser/view/PRJNA698063
 
 El artículo: ​​Niche differentiation of microbes and their functional signatures in Assam type tea (Camellia sinensis var. assamica)
 https://www.researchsquare.com/article/rs-347764/v1
+
+Bora, S. S., Dey, K. K., Borah, M., Rahman, M., Gogoi, M., Modi, M. K., & Barooah, M. (2021). Niche differentiation of microbes and their functional signatures in Assam type tea (Camellia sinensis var. assamica).
