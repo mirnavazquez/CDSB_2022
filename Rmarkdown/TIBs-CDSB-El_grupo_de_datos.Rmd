@@ -7,7 +7,7 @@ output: html_document
 
 ### Datos
 
-Los datos con los que trabajaremos se enlistan en la siguiente tabla. Durante el taller usaremos los datos del microbioma de pacientes con hipertensión **(htn)** y los otros datos se usaran en la práctica por equipos.
+Los datos con los que trabajaremos se enlistan en la siguiente tabla. 
 
 | samples   | BioProject                                                   | Article                                                      |
 | --------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -16,3 +16,43 @@ Los datos con los que trabajaremos se enlistan en la siguiente tabla. Durante el
 | pulque    | [PRJNA603591](https://www.ebi.ac.uk/ena/browser/view/PRJNA603591) | [**Genomic profiling of bacterial and fungal ...**](https://www.nature.com/articles/s41598-020-71864-4) |
 | sedimento | [PRJNA364776](https://www.ebi.ac.uk/ena/browser/view/PRJNA364776) | [**Microbial Dark Matter project phase II**](https://www.osti.gov/award-doi-service/biblio/10.46936/10.25585/60000876) * |
 | tea       | [PRJNA698063](https://www.ebi.ac.uk/ena/browser/view/PRJNA698063) | [**Niche differentiation of microbes......**)](https://www.researchsquare.com/article/rs-347764/v1) |
+
+#### htn
+**Sinopsis**: Se realizó secuenciación metagenómica de heces de pacientes sanos, con pre-hipertensión y con hipertensión. Los pacientes con enfermedad presentaron niveles d ediversidad drásticamenete más bajos en comparación con el grupo control. También hiciero trasplantes fecales de pacientes enfermos a ratones axénicos, el efecto del trasplante demostró que la hipertensión observada en los ratones era derivada de la microbiota trasplantada.
+
+Los datos crudos: PRJEB13870
+https://www.ebi.ac.uk/ena/browser/view/PRJEB13870?show=reads
+
+El artículo: Gut microbiota dysbiosis contributes to the development of hypertension sobre microbioma e hipertensión
+https://link.springer.com/article/10.1186/s40168-016-0222-x#Ack1
+
+#### pulque. 
+
+**Sinopsis**: En este trabajo se secuenciaron librerias de Illumina MiSeq de muestras a diferentes tiempos de fermentación: 0 hrs (aguamiel), 3, 6 y 12 horas. En general observaron que la abundancia de los géneros cambió durante la fermentación y se asoció con una disminución de sacarosa, aumento de etanol y ácido láctico (Medidos por HPLC). Predijeron, entre otros, la biosíntesis de folato y vitamina B. Uno de los MAG obtenidos correspondió a Saccharomyces cereviseae relacionado filogenéticamente con S. cerevisiae aislado de sake y bioetanol y otro correspondió a Zymomonas mobilis que propusieron como un nuevo linaje.
+
+Los datos crudos: PRJNA603591
+https://www.ebi.ac.uk/ena/browser/view/PRJNA603591
+
+El articulo: Genomic profiling of bacterial and fungal communities and their predictive functionality during pulque fermentation by whole-genome shotgun sequencing
+https://www.nature.com/articles/s41598-020-71864-4
+
+#### sedimento
+Microbioma de sedimento del Microbial Dark Matter project (MDMP)
+
+**Sinopsis**: El MDMP es realizado por el Departamento de Energía del JGI, se enfoca en resolver nuevos superphyla de bacterias y arqueas, en la fase uno se secuenciaron 201 linajes enriquecidos no cultivados, mediante single cell sequencing. En esta segunda fase se utilizaron datos publicos de diferentes muestras y regiones dle mundo. Aún se siguen procesando datos y hasta el momento han encontrado prometedores SAGs incluído un phylum novedoso en Deward Creek.
+
+Los datos: PRJNA364776
+https://www.ebi.ac.uk/ena/browser/view/PRJNA364776
+
+El proyecto: Microbial Dark Matter project phaseII https://www.osti.gov/award-doi-service/biblio/10.46936/10.25585/60000876  
+
+#### tea
+Microbioma de Camellia sinensis (la planta del té verde y negro)
+
+**Sinopsis**: En este trabajo se secuenciaron librerias de Illumina de muestras rizosféricas y endofíticas de C. sinensis, el estudio hace una descripción general de la taxonómia y predicción funcional del microbioma, y hace enfasis en las diferencias encontradas en la parte endofítica y rizosféricas. 
+
+Los datos: PRJNA698063
+https://www.ebi.ac.uk/ena/browser/view/PRJNA698063
+
+El artículo: ​​Niche differentiation of microbes and their functional signatures in Assam type tea (Camellia sinensis var. assamica)
+https://www.researchsquare.com/article/rs-347764/v1
