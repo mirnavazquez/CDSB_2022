@@ -9,7 +9,7 @@ output: html_document
 
 **Profundidad**: La profundidad de cada contig se calcula mapeando las lecturas al ensamble. Este paso permite evaluar la calidad del ensable y es necesario para hacer la reconstrucción de genomas ya que, como veremos más adelante, es uno de los parámetros que toman en cuenta los "bineadores". 
 
-Vamos a mapear utilizando la herramienta BBMap del programa **[BBtools](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/)**. Y samtools. 
+Vamos a mapear utilizando la herramienta BBMap del programa **[BBtools](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/)**. Y [**samtools**](http://www.htslib.org/doc/samtools.html). 
 
 **¡Manos a la obra!**
 
@@ -19,7 +19,7 @@ Conéctate al servidor:
 ssh USER@hpc-matematicas-z.fciencias.unam.mx
 ```
 
-Primero crea tu carpera y una liga simbolica a los datos:
+Crea tu carpeta y una liga simbólica a los datos:
 
 ```{bash acomodando archivos eval=F}
 mkdir -p 01.Mapeo/{data,results}
@@ -72,10 +72,10 @@ ln -s /home/diana/samples/htn/data/htn-depth.txt  data/
 Okay, ahora activa tu ambiente.
 
 ```{bash, eval=False}
-conda avtivate maxbin_env
+conda activate maxbin_env
 ```
 
-Explora las opciones y luego ahora si, a calcular bins. 
+Explora las opciones y ahora si, a calcular bins. 
 
 ```{bash run MaxBin2, eval=FALSE}
 run_MaxBin.pl -contig data/htn.fasta -out results/maxbin -abund data/htn-depth.txt -max_iteration 2
@@ -94,7 +94,7 @@ ln -s /home/diana/samples/htn/data/htn_sorted.bam  data/
 
 Para MetaBat lo primero que tenemos que hacer es crear un archivo de profundidad utilizando el script **jgi_summarize_bam_contig_depths**.
 
-Entonces primero activamos el ambinte.
+Entonces primero activamos el ambiente.
 
 ```{bash eval=FALSE}
 conda activate metabat_env
@@ -123,7 +123,7 @@ metabat -i data/htn.fasta -a data/htn-depth.txt -o results/bins -t 4 --minCVSum 
 
 #### CONCOCT
 
-Okay vamos a utilizar otro progama. Crea tus ligas simbolicas :)
+Okay vamos a utilizar otro programa. Crea tus ligas simbolicas :)
 
 ```{bash eval=F}
 mkdir -p 04.Concoct/{data,results}
@@ -144,7 +144,7 @@ Primero los contigs se tienen que partir en pedazos mas pequeños
 cut_up_fasta.py data/htn.fasta -c 10000 -o 0 --merge_last -b results/SplitAssembly-htn.bed > results/htn.fasta-split10K.fa
 ```
 
-Para creas la tabla de cobertura se necesita primero indexar el archivo bam
+Para crear la tabla de cobertura se necesita primero indexar el archivo bam
 
 ```{bash index bamfile, eval=FALSE}
 samtools index data/htn_sorted.bam
@@ -162,13 +162,13 @@ Normalmente correriamos 500 iteraciones, pero esta vez solo haremos una.
 concoct --coverage_file results/concoct_coverage_table_htn.tsv --composition_file results/htn.fasta-split10K.fa --clusters 400 --kmer_length 4 --threads 4 --length_threshold 3000 --basename concot --seed 4 --iterations 1
 ```
 
-Merge subcontig clustering into original contigs
+Combinar contigs
 
 ```{bash merge step, eval=FALSE}
 merge_cutup_clustering.py concot_clustering_gt3000.csv > results/merged-htn-gt3000.csv
 ```
 
-Extract bins as individual fasta.
+Extraer bins como fasta individualmente
 
 ```{bash make fastafiles, eval=FALSE}
 mkdir results/bins-concot
@@ -198,7 +198,7 @@ PATH=/home/programs:$PATH
 
 ### CheckM
 
-Muy bien, primero crea un nuevo directorio y entra al directorio.
+Muy bien, crea un nuevo directorio y entra en él.
 
 ```{bash eval=F}
 mkdir 06.CheckM
@@ -218,7 +218,7 @@ checkm  lineage_wf -t 4 -x fa /home/mirna/05.DAS_tool/results/htn_bins_DASTool_b
 
 Vamos a explorar la salida de checkM
 
-Primero me puedes decir cuantas lineas tiene tu archivo?
+Primero me puedes decir ¿cuántas lineas tiene tu archivo?
 
 Okay... ahora vamos a remover esas lineas feas. 
 
@@ -327,7 +327,7 @@ Veamos si funciono
 grep ">" *.fa
 ```
 
-Muy bien, pongamos eso en una nueva carpeta y esperemos lo mejor jaja, no es cierto, si movamoslo a otra carpeta, pero quitemos en renamed.
+Muy bien, pongamos eso en una nueva carpeta y esperemos lo mejor jaja, no es cierto, si movámoslo a otra carpeta, pero quitemos el renamed.
 
 ```{r}
 change_bin_name<-function(ruta){
