@@ -14,7 +14,7 @@ for i in /home/mirna/07.Bins/Genoma/01.Bins_named/*.fa ; do prodigal -i $i -o $i
 
 Veamos un poco la salida
 
-```{r}
+```{bash, eval=FALSE}
 grep ">" *.faa
 ```
 
@@ -24,18 +24,16 @@ Okay, ahora vamos a utilizar kofam_scan para anotar las proteinas.
 
 Vamos a dividirnos en equipos para hacer la anotacion de los bins!
 
+Esto es como lo hariamos para uno:
+
 ```{bash, eval=FALSE}
 /home/programs/DB/kofam/kofam_scan-1.3.0/exec_annotation -o /home/mirna/08.Kofamscan/htn_bins_63.fa.faa.txt /home/mirna/07.Bins/Proteoma/htn_bins_63.fa.faa  --report-unannotated  --cpu 4
 ```
 
+En un loop lo podriamos hacer asi: 
 
 ```{bash, eval=FALSE}
 for i in /home/mirna/07.Bins/Proteoma/*.faa ; do  /home/programs/DB/kofam/kofam_scan-1.3.0/exec_annotation -o /home/mirna/08.Kofamscan/$i.txt $i  --report-unannotated  --cpu 4; done
-```
-
-
-```{bash, eval=FALSE}
-&
 ```
 
 ### Explorando el metabolismo con rbims.
@@ -47,7 +45,7 @@ Vamos a hacer una exploracion rapida del metabolosmo con [rbims](https://mirnava
 
 ```{bash, eval=FALSE}
 for i in $(ls *.faa); do sed -i "s/\*//g" $i; done
-for i in $(ls *.faa); do interproscan.sh -cpu 4 -goterms -pa -i $i > Log_Interpro_Scan_$i.txt; done &
+for i in $(ls *.faa); do interproscan.sh -cpu 4 -goterms -pa -i $i > Log_Interpro_Scan_$i.txt; done 
 ```
 
 
