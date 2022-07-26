@@ -8,45 +8,54 @@ output: html_document
 
 Vamos a explorar la taxonomia de estos bins con [GTDB-tk](https://github.com/Ecogenomics/GTDBTk).
 
-
 ```{bash eval=F}
-mkdir -p 08.GTDBTK/{data,results}
-cd 08.GTDBTK/
-ln -s /home/diana/samples/htn/data/htn.fasta data/  
-ln -s /home/diana/samples/htn/data/htn_sorted.bam  data/ 
+mkdir 11.GTDBTK
 ```
 
+Indiquemos donde esta la base de datos:
+
+```{bash}
+export GTDBTK_DATA_PATH=/home/programs/DB/release207_v2 
+```
+
+Explora la ayuda de GTDB-tk
+
+Discutamos: https://docs.google.com/document/d/1iiw-q-90nATg-RNTd9nU8L1XE5xoDRC6j19JC1GiPIk/edit?usp=sharing
+
+Excelente, ahora en equipos vamos a correr GTDB-tk.
 
 ```{bash, eval=FALSE}
-export GTDBTK_DATA_PATH=/home/DB/release202/ 
-nohup gtdbtk classify_wf --genome_dir /home/mirna/04.AndreasData/07.Didi_bins/bins/02.Bins_renamed --out_dir /home/mirna/04.AndreasData/07.Didi_bins/bins/03.GTDB-tk --cpus 20 > 2021_05_20-GTDBK-log &
+gtdbtk classify_wf --genome_dir /home/mirna/07.Bins/Genoma/01.Bins_named --out_dir /home/mirna/11.GTDBTK --cpus 4 -x fa 
 ```
 
-Vamos a visualizar los datos.
+Vamos a visualizar los datos. Todos a R!!
 
-Primero, leamos los datos.
+## Leamos los datos
 
-```{r}
+```{r, eval=FALSE}
 library(tidyverse)
-GTDBK_ar_didi<-read.table(
+```
+
+
+```{r, eval=FALSE}
+GTDBK_ar<-read.table(
   here::here("data/02.GTDB-tk/01.Didi_bins/gtdbtk.ar122.summary.tsv"), 
   sep = "\t", header = T, 
                      na.strings ="", stringsAsFactors= F) %>%
   as_tibble()
 
-GTDBK_bac_didi<-read.table(
+GTDBK_bac<-read.table(
   here::here("data/02.GTDB-tk/01.Didi_bins/gtdbtk.bac120.summary.tsv"), 
   sep = "\t", header = T, 
                       na.strings ="", stringsAsFactors= F)%>%
   as_tibble()
 
-GTDBTK_didis<-bind_rows(GTDBK_ar_didi, GTDBK_bac_didi)
+GTDBTK<-bind_rows(GTDBK_ar_didi, GTDBK_bac_didi)
 ```
 
 
-```{r}
-library(tidyverse)
-Guaymas_subsurface<-GTDBK %>%
+```{r, eval=FALSE}
+htn_gtdbtk<-GTDBK %>%
   select(user_genome, classification, Sample, Site, Depth_mbsf, 
          Temperature_C) %>%
   separate(classification, c("Domain", "Phylum", "Class", "Order",
@@ -54,13 +63,13 @@ Guaymas_subsurface<-GTDBK %>%
   rename(Bin_name=user_genome)  %>%
   unite(Bin_name_2, c("Bin_name", "Phylum"), remove = FALSE) %>%
   select(Bin_name, Domain, Phylum, Class, Order, Family, Genus, 
-         Species, Bin_name_2, Sample, Site, Depth_mbsf, Temperature_C)
-
+         Species)
 ```
 
 Vamos a hacer un plot
-```{r}
-GTDBtk<-Guaymas_subsurface_clean %>%
+
+```{r, eval=FALSE}
+htn_gtdbtk %>%
   count(Domain, Phylum) %>%
   rename(Number_of_MAGs = n) %>%
   ggplot(aes(x = Domain, 
@@ -71,7 +80,7 @@ GTDBtk<-Guaymas_subsurface_clean %>%
 
 Puede ser interactivo tambien.
 
-```{r}
+```{r, eval=FALSE}
 library(plotly)
 GTDBtk_p_fig <- ggplotly(GTDBtk)
 ```
