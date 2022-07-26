@@ -33,13 +33,72 @@ Esto es como lo hariamos para uno:
 En un loop lo podriamos hacer asi: 
 
 ```{bash, eval=FALSE}
-for i in /home/mirna/07.Bins/Proteoma/*.faa ; do  /home/programs/DB/kofam/kofam_scan-1.3.0/exec_annotation -o /home/mirna/08.Kofamscan/$i.txt $i  --report-unannotated  --cpu 4; done
+for i in *.faa ; do  /home/programs/DB/kofam/kofam_scan-1.3.0/exec_annotation -o /home/mirna/08.Kofamscan/$i.txt $i  --report-unannotated  --cpu 4; done
 ```
+
+Okay antes de correrlo, vamos a crear dos carpetas nuevas y unas ligas simbolicas.
+
+```{bash eval=F}
+mkdir -p 08.Kofamscan/{01.Proteomas,02.KO_results}
+cd 08.Kofamscan/
+ln -s /home/mirna/07.Bins/Proteoma/*.faa 01.Proteomas 
+```
+
+Ajusta el loop para correr KofamScan con los genomas que te tocan :)
 
 ### Explorando el metabolismo con rbims.
 
 Vamos a hacer una exploracion rapida del metabolosmo con [rbims](https://mirnavazquez.github.io/RbiMs/index.html).
 
+Okay iniciamos con la libreria de Rbims
+
+```{r eval=F}
+library(rbims)
+```
+
+Ahora vamos a leer los resulados de KEEG
+
+```{r eval=F}
+htn<-read_ko("08.Kofamscan/02.KO_results/")
+```
+
+Vamos a mapear con el resto de la base de datos de KEEG
+
+```{r eval=F}
+htn_mapp<-mapping_ko(htn)
+```
+
+Okay, vamos a enfocarnos en los metabolismos encargados de la obtencion de energia. 
+
+```{r eval=F}
+Overview<-c("Central Metabolism", "Carbon Fixation", 
+            "Nitrogen Metabolism", "Sulfur Metabolism", "Fermentation", 
+            "Methane Metabolism")
+Energy_metabolisms_GOM<-htn_mapp %>%
+  drop_na(Cycle) %>%
+  get_subset_pathway(rbims_pathway, Overview) 
+```
+
+Vamos a visualizar los datos.
+
+```{r eval=F}
+plot_bubble(tibble_ko = Energy_metabolisms_GOM,
+            x_axis = Bin_name, 
+            y_axis = Pathway_cycle,
+            analysis="KEGG",
+            calc="Percentage",
+            range_size = c(1,10),
+            y_labs=FALSE,
+            x_labs=FALSE)  
+```
+
+Okay, incorporemos metadatos, como por ejemplo la taxonomia. 
+
+
+
+
+
+Primero leemos los datos dentro de 
 
 ### Anotacion con InterproScan
 
