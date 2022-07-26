@@ -54,5 +54,5 @@ Microbioma de Camellia sinensis (la planta del té verde y negro)
 Los datos: PRJNA698063
 https://www.ebi.ac.uk/ena/browser/view/PRJNA698063
 
-El artículo: ​​Niche differentiation of microbes and their functional signatures in Assam type tea (Camellia sinensis var. assamica)
+El artículo: Niche differentiation of microbes and their functional signatures in Assam type tea (Camellia sinensis var. assamica)
 https://www.researchsquare.com/article/rs-347764/v1
