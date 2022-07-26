@@ -4,7 +4,7 @@ author: "Mirna Vazquez Rosas Landa"
 date: '2022-07-22'
 output: html_document
 ---
-### Taxonomy
+## Taxonomia
 
 Vamos a explorar la taxonomia de estos bins con [GTDB-tk](https://github.com/Ecogenomics/GTDBTk).
 
@@ -12,9 +12,16 @@ Vamos a explorar la taxonomia de estos bins con [GTDB-tk](https://github.com/Eco
 mkdir 11.GTDBTK
 ```
 
+Activemos el ambiente
+
+```{bash  eval=F}
+conda activate gtdbtk-2.1.0
+```
+
+
 Indiquemos donde esta la base de datos:
 
-```{bash}
+```{bash  eval=F}
 export GTDBTK_DATA_PATH=/home/programs/DB/release207_v2 
 ```
 
@@ -30,7 +37,7 @@ gtdbtk classify_wf --genome_dir /home/mirna/07.Bins/Genoma/01.Bins_named --out_d
 
 Vamos a visualizar los datos. Todos a R!!
 
-## Leamos los datos
+### Leamos los datos
 
 ```{r, eval=FALSE}
 library(tidyverse)
