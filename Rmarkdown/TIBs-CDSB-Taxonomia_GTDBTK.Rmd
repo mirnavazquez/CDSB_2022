@@ -63,7 +63,7 @@ htn_gtdbtk<-GTDBK %>%
 Vamos a hacer un plot
 
 ```{r, eval=FALSE}
-htn_gtdbtk %>%
+GTDBtk<-htn_gtdbtk %>%
   count(Domain, Phylum) %>%
   rename(Number_of_MAGs = n) %>%
   ggplot(aes(x = Domain, 
