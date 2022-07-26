@@ -94,11 +94,62 @@ plot_bubble(tibble_ko = Energy_metabolisms_GOM,
 
 Okay, incorporemos metadatos, como por ejemplo la taxonomia. 
 
+```{r eval=F}
+Metadatos<-read_delim("11.GTDBTK/Metadatos.txt", delim="\t")
+```
 
+Hagamos un plot
 
+```{r eval=F}
+plot_bubble(tibble_ko = Energy_metabolisms_GOM,
+            x_axis = Bin_name, 
+            y_axis = Pathway_cycle,
+            analysis="KEGG",
+            data_experiment = Metadatos,
+            calc="Percentage",
+            color_character = Class,
+            range_size = c(1,10),
+            y_labs=FALSE,
+            x_labs=FALSE) 
+```
 
+Ahora, vamos a explorar una sola via
 
-Primero leemos los datos dentro de 
+```{r eval=F}
+Methane_metabolisms_GOM<-htn_mapp %>%
+  drop_na(Cycle) %>%
+  get_subset_pathway(Cycle, Methane_meta)
+```
+
+Y hagamos un heatmap
+
+```{r eval=F}
+plot_heatmap(tibble_ko=Methane_metabolisms_GOM, 
+             y_axis=Genes,
+             analysis = "KEGG",
+             calc="Binary")
+```
+
+Ahora agregemos metadatos
+
+```{r eval=F}
+plot_heatmap(tibble_ko=Methane_metabolisms_GOM, 
+             y_axis=Genes,
+             data_experiment = Metadatos,
+             order_x = Phylum,
+             analysis = "KEGG",
+             calc="Binary")
+```
+
+```{r eval=F}
+plot_heatmap(tibble_ko=Methane_metabolisms_GOM, 
+             y_axis=Genes,
+             data_experiment = Metadatos,
+             #order_y = Pathway_cycle,
+             order_x = Phylum,
+             analysis = "KEGG",
+             calc="Binary")
+```
 
 ### Anotacion con InterproScan
 
@@ -107,14 +158,6 @@ for i in $(ls *.faa); do sed -i "s/\*//g" $i; done
 for i in $(ls *.faa); do interproscan.sh -cpu 4 -goterms -pa -i $i > Log_Interpro_Scan_$i.txt; done 
 ```
 
-
-
-## Metabolic
-
-```{bash,  eval=FALSE}
-export PERL5LIB=$PERL5LIB:/etc/perl/usr/local/lib/x86_64-linux-gnu/perl/5.26.1
-perl /home/mirna/00.Programs/METABOLIC/METABOLIC-C.pl -in /home/mirna/03.Tony_Project/07.Bins/03.Proteome_named_scaff -t 10 -o output 
-```
 
 
 
