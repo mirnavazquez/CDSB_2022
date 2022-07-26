@@ -18,7 +18,6 @@ Activemos el ambiente
 conda activate gtdbtk-2.1.0
 ```
 
-
 Indiquemos donde esta la base de datos:
 
 ```{bash  eval=F}
@@ -43,28 +42,16 @@ Vamos a visualizar los datos. Todos a R!!
 library(tidyverse)
 ```
 
-
 ```{r, eval=FALSE}
-GTDBK_ar<-read.table(
-  here::here("data/02.GTDB-tk/01.Didi_bins/gtdbtk.ar122.summary.tsv"), 
+GTDBK<-read.table("11.GTDBTK/gtdbtk.bac120.summary.tsv", 
   sep = "\t", header = T, 
-                     na.strings ="", stringsAsFactors= F) %>%
+  na.strings ="", stringsAsFactors= F)%>%
   as_tibble()
-
-GTDBK_bac<-read.table(
-  here::here("data/02.GTDB-tk/01.Didi_bins/gtdbtk.bac120.summary.tsv"), 
-  sep = "\t", header = T, 
-                      na.strings ="", stringsAsFactors= F)%>%
-  as_tibble()
-
-GTDBTK<-bind_rows(GTDBK_ar_didi, GTDBK_bac_didi)
 ```
-
 
 ```{r, eval=FALSE}
 htn_gtdbtk<-GTDBK %>%
-  select(user_genome, classification, Sample, Site, Depth_mbsf, 
-         Temperature_C) %>%
+  select(user_genome, classification) %>%
   separate(classification, c("Domain", "Phylum", "Class", "Order",
                              "Family", "Genus", "Species"), sep= ";") %>%
   rename(Bin_name=user_genome)  %>%
