@@ -60,6 +60,13 @@ htn_gtdbtk<-GTDBK %>%
          Species)
 ```
 
+Parentesis, vamos a imprimir esta tabla para convertirla en metadatos.
+
+```{r eval=FALSE}
+write.table(htn_gtdbtk, file = "11.GTDBTK/Metadatos.txt", sep="\t", quote = F,
+            row.names = F, col.names = T)
+```
+
 Vamos a hacer un plot
 
 ```{r, eval=FALSE}
