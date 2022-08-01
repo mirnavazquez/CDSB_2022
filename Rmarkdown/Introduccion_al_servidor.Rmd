@@ -1,0 +1,109 @@
+---
+title: "Análisis avanzado de metagenomas. Creando tus flujos de análisis con R/Bioconductor"
+author: "Dra. Yalbi Balderas<br>01 de agosto de 2022"
+output:
+  xaringan::moon_reader:
+    css: ["cdsb2022.css"]
+    self_contained: true
+    nature:
+      ratio: '16:9'
+---
+```{r xaringanExtra-clipboard, echo=FALSE}
+# No quitar! Es para que aparezca la opción copy code en los R chunks
+xaringanExtra::use_clipboard()
+```
+
+# Introducción al uso del servidor
+
+## Concepto
+
+Un servidor, es una computadora de alto rendimiento diseñada para manipular, almacenar, manejar datos de redes, dispositivos y sistemas. El término *servidor* se puede utilizar como una **máquina física**, una máquina virtual, o un software ejecutando funciones de servidor.
+
+---
+
+## Laboratorio de cómputo de alto rendimiento 
+
+![](https://upload.wikimedia.org/wikipedia/commons/c/c9/Client-server-model.svg)
+
+<p> Encargado: Técnico académico y profesor de asignatura M. en C. Miguel Ángel Pérez León. </p>
+<p> Servidor: supermicro, hasta 144 núcleos, 3TB RAM, Linux container </p>
+
+---
+class: chapter-slide
+
+# ¿Cómo me conecto al servidor?
+
+---
+## 1ra opción: Conexión usando SSH (Secure SHell)
+
+Para conectarte, requieres abrir una terminal y escribir: 
+
+~~~
+ssh -v user00@servername -p 0000
+~~~
+
+Adapta la instrucción con los datos que te hemos compartido,
+utiliza tu usuario y contraseña proporcionada
+
+---
+
+## 2da opción: Conexión web (Rstudio server)
+
+Entra directamente mediante el URL que te hemos compartido  
+utiliza tu usuario y contraseña proporcionada
+
+---
+
+class: chapter-slide
+
+# ¿Cómo puedo subir y descargar archivos?
+
+---
+
+## Opción 1: En una terminal, utiliza el comando scp (NO estar dentro del servidor)
+
+En una terminal, utiliza el comando scp (no estar dentro del servidor)
+
+### Subir archivos de mi computadora al servidor
+
+~~~
+scp -r -P 0000 FOLDER USER00@SERVERNAME:/home/USER00
+~~~
+
+### Descargar archivos del servidor a mi computadora
+
+~~~
+scp -r -P 0000 USER00@SERVERNAME:/home/USER00/FOLDER Downloads/
+~~~
+
+adapta la instrucción con los datos que te hemos compartido
+
+---
+
+## Opción 2: Conexión web (Rstudio server)
+
+Ubica la pestaña Files en Rstudio, 
+selecciona los archivos o carpetas que deseas descargar,
+ubica el icono de tuerca y selecciona la opción Export
+
+---
+
+## Opción extra: Utiliza una aplicación que soporte el protocolo SFTP (Secure File Transfer Protocol)
+
+![](https://upload.wikimedia.org/wikipedia/commons/0/01/FileZilla_logo.svg)
+
+---
+
+.pull-left[<br><br><br><br><br><br><br>
+.center[
+# ¡Gracias! 
+]
+]
+
+.pull-right[<br>
+```{r, echo=FALSE, out.width='80%', fig.align='center'}
+knitr::include_graphics("css/xolo.png")
+```
+
+]
+
